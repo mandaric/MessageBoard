@@ -1,9 +1,5 @@
 <?php
 
-//echo '<pre>';
-//print_r($_SERVER);
-//echo '</pre>';
-
 if (isset($_SERVER["PATH_INFO"]))
 {
     $path = $_SERVER["PATH_INFO"];
@@ -16,7 +12,7 @@ else
 switch ($path)
 {
     case "/":
-        require "messages.php";
+        require "overview.php";
         break;
 
     case "/new":

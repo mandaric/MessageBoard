@@ -1,32 +1,25 @@
 <?php
 
-//echo '<pre>';
-//print_r($_POST);
-//echo '</pre>';
-
-//$data = json_encode($_POST);
-//
-//echo $data;
-
-$file_name = 'messages.json';
-
-$file_content = file_get_contents($file_name);
-
-$contents = json_decode($file_content, true);
-
-if (empty($contents))
+if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
-    $contents = [];
+    $file = __DIR__ . '/messages.json';
+
+    $content = file_get_contents($file);
+
+    if (empty($content))
+    {
+        $content = [];
+    }
+    else
+    {
+        $content = json_decode($content, true);
+    }
+
+    $content[] = $_POST;
+
+    file_put_contents($file, json_encode($content));
+
+    header('Location: /');
 }
 
-$contents[] = $_POST;
-
-$messages = fopen($file_name, 'w');
-fwrite($messages, json_encode($contents));
-fclose($messages);
-
-require __DIR__ . "/public/form.phtml";
-
-//echo '<pre>';
-//print_r($contents);
-//echo '</pre>';
+require __DIR__ . "/views/form.phtml";
