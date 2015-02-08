@@ -8,18 +8,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
     if (empty($content))
     {
-        $content = [];
+        $messages = [];
     }
     else
     {
-        $content = json_decode($content, true);
+        $messages = json_decode($content, true);
     }
 
-    $content[] = $_POST;
+    $data = $_POST;
+    if (isset($data['id']))
+    {
+        foreach ($messages as $index => $message)
+        {
+            if ($message['id'] == $data['id'])
+            {
+                $messages[$index] = $data;
+            }
+        }
+    }
+    else {
+        $data['id'] = count($messages) + 1;
+        $messages[] = $data;
+    }
 
-    file_put_contents($file, json_encode($content));
+    file_put_contents($file, json_encode($messages));
 
     header('Location: /');
 }
 
+if (isset($_GET['id']))
+{
+    $file = __DIR__ . '/messages.json';
+
+    if (is_file($file))
+    {
+        $content = file_get_contents($file);
+        $messages = json_decode($content, true);
+
+        foreach ($messages as $message)
+        {
+            if ($message['id'] == $_GET['id'])
+            {
+                $data = $message;
+            }
+        }
+    }
+}
 require __DIR__ . "/views/form.phtml";
