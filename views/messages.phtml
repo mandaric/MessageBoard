@@ -42,6 +42,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Title</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -49,6 +50,7 @@
                 <tr>
                     <td><?php echo $message['id']; ?></td>
                     <td><a href="/edit?id=<?php echo $message['id']; ?>"><?php echo $message['title']; ?></a></td>
+                    <td><a href="/edit?id=<?php echo $message['id']; ?>">Edit</a></td>
                 </tr>
                 <?php endforeach; ?>
                 </tbody>
